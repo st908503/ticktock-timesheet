@@ -1,0 +1,11 @@
+[
+  {
+    "id": "1",
+    "weekId": "2",
+    "date": "2024-01-08",
+    "projectName": "Homepage Development",
+    "workType": "Bug fixes",
+    "description": "Fixed navbar responsiveness",
+    "hours": 4
+  }
+]

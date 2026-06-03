@@ -10,24 +10,20 @@ import LoadingSpinner from "@/components/shared/loading-spinner";
 
 import PageContainer from "@/components/layout/page-container";
 
-import TaskEntryCard from "@/features/timesheets/components/task-entry-card";
-import TaskEntryModal from "@/features/timesheets/components/task-entry-modal";
-import WeeklyProgress from "@/features/timesheets/components/weekly-progress";
+import TaskEntryCard from "./task-entry-card";
+import TaskEntryModal from "./task-entry-modal";
+import WeeklyProgress from "./weekly-progress";
 
-import { useTimesheetEntries } from "@/features/timesheets/hooks/use-timesheet-entries";
+import { useTimesheetEntries } from "../hooks/use-timesheet-entries";
 
-import type {
-  Entry,
-} from "@/features/timesheets/types/timesheet.types";
+import type { Entry } from "../types/timesheet.types";
 
 type Props = {
-  params: {
-    weekId: string;
-  };
+  weekId: string;
 };
 
-export default function TimesheetDetailsPage({
-  params,
+export default function TimesheetDetailsClient({
+  weekId,
 }: Props) {
   const {
     entries,
@@ -37,9 +33,7 @@ export default function TimesheetDetailsPage({
     createEntry,
     updateEntry,
     deleteEntry,
-  } = useTimesheetEntries(
-    params.weekId
-  );
+  } = useTimesheetEntries(weekId);
 
   const [open, setOpen] =
     useState(false);
@@ -97,7 +91,7 @@ export default function TimesheetDetailsPage({
   return (
     <>
       <PageContainer
-        title={`Week ${params.weekId}`}
+        title={`Week ${weekId}`}
         description="Manage weekly task entries"
         action={
           <button

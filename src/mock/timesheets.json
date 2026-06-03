@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "weekNumber": 1,
+    "startDate": "2024-01-01",
+    "endDate": "2024-01-05",
+    "status": "completed",
+    "totalHours": 40
+  },
+  {
+    "id": "2",
+    "weekNumber": 2,
+    "startDate": "2024-01-08",
+    "endDate": "2024-01-12",
+    "status": "incomplete",
+    "totalHours": 20
+  }
+]
