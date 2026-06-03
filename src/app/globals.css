@@ -24,10 +24,12 @@
 
 * {
   border-color: var(--border);
+   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  background: #f5f5f5;
 }
 
 body {
@@ -35,3 +37,5 @@ body {
   color: var(--foreground);
   font-family: "Inter", sans-serif;
 }
+
+ 
