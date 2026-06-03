@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 import { ChevronRight } from "lucide-react";
 
 import StatusBadge from "@/components/shared/status-badge";
@@ -14,29 +15,43 @@ type Props = {
 export default function TimesheetRow({
   timesheet,
 }: Props) {
+  const actionLabel =
+    timesheet.status === "missing"
+      ? "Create"
+      : timesheet.status ===
+          "incomplete"
+        ? "Update"
+        : "View";
+
   return (
-    <tr className="border-b bg-white transition hover:bg-gray-50">
-      <td className="px-6 py-4 font-medium">
+    <tr className="border-b border-[#E5E7EB] bg-white transition hover:bg-[#FAFAFA]">
+      {/* WEEK */}
+      <td className="px-6 py-5 text-[15px] font-medium text-[#111827]">
         Week {timesheet.weekNumber}
       </td>
 
-      <td className="px-6 py-4 text-sm text-gray-600">
+      {/* DATE */}
+      <td className="px-6 py-5 text-[15px] text-[#6B7280]">
         {formatWeekRange(
           timesheet.startDate,
           timesheet.endDate
         )}
       </td>
 
-      <td className="px-6 py-4">
-        <StatusBadge status={timesheet.status} />
+      {/* STATUS */}
+      <td className="px-6 py-5">
+        <StatusBadge
+          status={timesheet.status}
+        />
       </td>
 
-      <td className="px-6 py-4">
+      {/* ACTION */}
+      <td className="px-6 py-5 text-right">
         <Link
           href={`/timesheets/${timesheet.id}`}
-          className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-700"
+          className="inline-flex w-full items-center justify-end gap-1 text-[15px] font-medium text-[#2563EB] transition hover:text-[#1D4ED8]"
         >
-          View
+          {actionLabel}
 
           <ChevronRight className="h-4 w-4" />
         </Link>

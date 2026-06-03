@@ -2,6 +2,7 @@
 
 type Props = {
   search: string;
+
   onSearchChange: (
     value: string
   ) => void;
@@ -12,25 +13,18 @@ export default function TimesheetFilters({
   onSearchChange,
 }: Props) {
   return (
-    <div className="flex flex-col gap-4 rounded-xl border bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <h2 className="text-lg font-semibold">
-          Timesheets
-        </h2>
+    <div className="flex flex-col gap-4 lg:flex-row">
+      {/* DATE RANGE */}
+      <select className="h-[52px] w-[190px] rounded-[12px] border border-[#D1D5DB] bg-white px-4 text-[16px] text-[#6B7280] outline-none">
+        <option>Date Range</option>
+      </select>
 
-        <p className="text-sm text-gray-500">
-          Manage and review submitted timesheets
-        </p>
-      </div>
+      {/* STATUS */}
+      <select className="h-[52px] w-[150px] rounded-[12px] border border-[#D1D5DB] bg-white px-4 text-[16px] text-[#6B7280] outline-none">
+        <option>Status</option>
+      </select>
 
-      <input
-        value={search}
-        onChange={(e) =>
-          onSearchChange(e.target.value)
-        }
-        placeholder="Search week..."
-        className="h-11 rounded-lg border px-4 outline-none focus:border-blue-500"
-      />
+    
     </div>
   );
 }

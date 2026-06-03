@@ -1,6 +1,9 @@
 "use client";
 
-import { ChevronDown, LogOut } from "lucide-react";
+import {
+  ChevronDown,
+  LogOut,
+} from "lucide-react";
 
 import { useSession } from "next-auth/react";
 
@@ -11,25 +14,36 @@ export default function Navbar() {
     useSession();
 
   return (
-    <header className="h-16 border-b bg-white">
-      <div className="flex h-full items-center justify-between px-6">
-        <div className="flex items-center gap-10">
-          <h1 className="text-3xl font-bold">
+    <header className="border-b border-[#E5E7EB] bg-white">
+      <div className="flex h-[78px] items-center justify-between px-8">
+        {/* LEFT */}
+        <div className="flex items-center gap-14">
+          {/* LOGO */}
+          <h1 className="text-[28px] font-semibold tracking-[-0.03em] text-[#111827]">
             ticktock
           </h1>
 
-          <span className="text-sm font-medium text-gray-500">
+          {/* PAGE TITLE */}
+          <span className="text-[15px] font-medium text-[#111827]">
             Timesheets
           </span>
         </div>
 
+        {/* RIGHT */}
         <button
           onClick={() => logout()}
-          className="flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-medium transition hover:bg-gray-50"
+          className="flex items-center gap-3 rounded-[12px] border border-[#E5E7EB] bg-white px-5 py-3 text-[16px] font-medium text-[#6B7280] transition hover:bg-[#F9FAFB]"
         >
-          {session?.user?.name}
+          {/* USER NAME */}
+          <span>
+            {session?.user?.name ||
+              "John Doe"}
+          </span>
 
-          <LogOut className="h-4 w-4" />
+          {/* DROPDOWN ICON */}
+          <ChevronDown className="h-5 w-5" />
+
+       
         </button>
       </div>
     </header>
