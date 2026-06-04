@@ -1,32 +1,47 @@
-import { NextResponse } from "next/server";
+import {
+  NextRequest,
+  NextResponse,
+} from "next/server";
 
-import {deleteEntry,updateEntry} from "@/lib/mock-db";
+import {
+  deleteEntry,
+  updateEntry,
+} from "@/lib/mock-db";
 
 type Params = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: Params
 ) {
+
+  // unwrap async params
+  const { id } = await params;
+
   const body = await request.json();
 
-  const updated = await updateEntry(
-    params.id,
-    body
-  );
+  const updated =
+    await updateEntry(
+      id,
+      body
+    );
 
   return NextResponse.json(updated);
 }
 
 export async function DELETE(
-  _: Request,
+  _: NextRequest,
   { params }: Params
 ) {
-  await deleteEntry(params.id);
+
+  // unwrap async params
+  const { id } = await params;
+
+  await deleteEntry(id);
 
   return NextResponse.json({
     success: true,
