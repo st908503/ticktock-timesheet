@@ -1,18 +1,28 @@
+// timesheet-details-client.tsx
 "use client";
 
-import { useMemo, useState } from "react";
+import {
+  useMemo,
+  useState,
+} from "react";
 
 import { Plus } from "lucide-react";
 
 import EmptyState from "@/components/shared/empty-state";
+
 import ErrorState from "@/components/shared/error-state";
+
 import LoadingSpinner from "@/components/shared/loading-spinner";
 
 import PageContainer from "@/components/layout/page-container";
 
 import TaskEntryCard from "./task-entry-card";
+
 import TaskEntryModal from "./task-entry-modal";
+
 import WeeklyProgress from "./weekly-progress";
+
+import TimesheetFilters from "./timesheet-filters";
 
 import { useTimesheetEntries } from "../hooks/use-timesheet-entries";
 
@@ -41,6 +51,20 @@ export default function TimesheetDetailsClient({
   const [selectedEntry, setSelectedEntry] =
     useState<Entry | null>(null);
 
+  // FILTER STATES
+  const [search, setSearch] =
+    useState("");
+
+  const [status, setStatus] =
+    useState("");
+
+  const [startDate, setStartDate] =
+    useState("");
+
+  const [endDate, setEndDate] =
+    useState("");
+
+  // TOTAL HOURS
   const totalHours = useMemo(() => {
     return entries.reduce(
       (acc, entry) =>
@@ -48,6 +72,78 @@ export default function TimesheetDetailsClient({
       0
     );
   }, [entries]);
+
+  // STATUS CALCULATOR
+  function getStatus(
+    hours: number
+  ) {
+    if (hours >= 40)
+      return "completed";
+
+    if (hours > 0)
+      return "incomplete";
+
+    return "missing";
+  }
+
+  // FILTERED ENTRIES
+  const filteredEntries =
+    useMemo(() => {
+      return entries.filter(
+        (entry) => {
+          const matchesSearch =
+            entry.projectName
+              .toLowerCase()
+              .includes(
+                search.toLowerCase()
+              ) ||
+            entry.description
+              .toLowerCase()
+              .includes(
+                search.toLowerCase()
+              );
+
+          const entryStatus =
+            getStatus(entry.hours);
+
+          const matchesStatus =
+            status
+              ? entryStatus ===
+                status
+              : true;
+
+          const entryDate =
+            new Date(entry.date);
+
+          const matchesStart =
+            startDate
+              ? entryDate >=
+                new Date(
+                  startDate
+                )
+              : true;
+
+          const matchesEnd =
+            endDate
+              ? entryDate <=
+                new Date(endDate)
+              : true;
+
+          return (
+            matchesSearch &&
+            matchesStatus &&
+            matchesStart &&
+            matchesEnd
+          );
+        }
+      );
+    }, [
+      entries,
+      search,
+      status,
+      startDate,
+      endDate,
+    ]);
 
   function handleAddEntry() {
     setSelectedEntry(null);
@@ -96,37 +192,76 @@ export default function TimesheetDetailsClient({
         action={
           <button
             onClick={handleAddEntry}
-            className="inline-flex h-11 items-center gap-2 rounded-lg bg-blue-600 px-5 text-sm font-medium text-white transition hover:bg-blue-700"
+            className="
+              inline-flex
+              h-11
+              items-center
+              gap-2
+              rounded-lg
+              bg-blue-600
+              px-5
+              text-sm
+              font-medium
+              text-white
+              transition
+              hover:bg-blue-700
+            "
           >
             <Plus className="h-4 w-4" />
             Add Entry
           </button>
         }
       >
-        <WeeklyProgress
-          totalHours={totalHours}
-        />
+        <div className="space-y-5">
+          {/* FILTERS */}
+          <TimesheetFilters
+            search={search}
+            status={status}
+            startDate={startDate}
+            endDate={endDate}
+            onSearchChange={
+              setSearch
+            }
+            onStatusChange={
+              setStatus
+            }
+            onStartDateChange={
+              setStartDate
+            }
+            onEndDateChange={
+              setEndDate
+            }
+          />
 
-        <div className="space-y-4">
-          {entries.length === 0 ? (
-            <EmptyState
-              title="No entries yet"
-              description="Create your first task entry for this week."
-            />
-          ) : (
-            entries.map((entry) => (
-              <TaskEntryCard
-                key={entry.id}
-                entry={entry}
-                onEdit={
-                  handleEditEntry
-                }
-                onDelete={
-                  deleteEntry
-                }
+          <WeeklyProgress
+            totalHours={totalHours}
+          />
+
+          {/* LIST */}
+          <div className="space-y-4">
+            {filteredEntries.length ===
+            0 ? (
+              <EmptyState
+                title="No matching entries"
+                description="Try changing filters or add a new entry."
               />
-            ))
-          )}
+            ) : (
+              filteredEntries.map(
+                (entry) => (
+                  <TaskEntryCard
+                    key={entry.id}
+                    entry={entry}
+                    onEdit={
+                      handleEditEntry
+                    }
+                    onDelete={
+                      deleteEntry
+                    }
+                  />
+                )
+              )
+            )}
+          </div>
         </div>
       </PageContainer>
 

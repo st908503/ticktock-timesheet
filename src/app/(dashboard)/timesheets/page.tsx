@@ -1,9 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import {
+  useMemo,
+  useState,
+} from "react";
 
 import EmptyState from "@/components/shared/empty-state";
+
 import ErrorState from "@/components/shared/error-state";
+
 import LoadingSpinner from "@/components/shared/loading-spinner";
 
 import TimesheetFilters from "@/features/timesheets/components/timesheet-filters";
@@ -21,20 +26,78 @@ export default function TimesheetsPage() {
     error,
   } = useTimesheets();
 
+  // FILTER STATES
   const [search, setSearch] =
     useState("");
 
+  const [status, setStatus] =
+    useState("");
+
+  const [startDate, setStartDate] =
+    useState("");
+
+  const [endDate, setEndDate] =
+    useState("");
+
+  // FILTER LOGIC
   const filteredTimesheets =
     useMemo(() => {
       return timesheets.filter(
-        (timesheet) =>
-          `week ${timesheet.weekNumber}`
-            .toLowerCase()
-            .includes(
-              search.toLowerCase()
-            )
+        (timesheet) => {
+          // SEARCH
+          const matchesSearch =
+            `week ${timesheet.weekNumber}`
+              .toLowerCase()
+              .includes(
+                search.toLowerCase()
+              );
+
+          // STATUS
+          const matchesStatus =
+            status
+              ? timesheet.status ===
+                status
+              : true;
+
+          // DATE RANGE
+          const start =
+            new Date(
+              timesheet.startDate
+            );
+
+          const end = new Date(
+            timesheet.endDate
+          );
+
+          const matchesStartDate =
+            startDate
+              ? start >=
+                new Date(
+                  startDate
+                )
+              : true;
+
+          const matchesEndDate =
+            endDate
+              ? end <=
+                new Date(endDate)
+              : true;
+
+          return (
+            matchesSearch &&
+            matchesStatus &&
+            matchesStartDate &&
+            matchesEndDate
+          );
+        }
       );
-    }, [timesheets, search]);
+    }, [
+      timesheets,
+      search,
+      status,
+      startDate,
+      endDate,
+    ]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -48,27 +111,43 @@ export default function TimesheetsPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-[1500px] gap-8 px-6 py-2">
+      {/* MAIN */}
       <div className="flex-1 rounded-[12px] border border-[#E5E7EB] bg-white">
         <div className="p-6">
+          {/* HEADER */}
           <div className="mb-8">
             <h1 className="text-[24px] font-bold tracking-[-0.03em] text-[#111827]">
               Your Timesheets
             </h1>
           </div>
 
+          {/* FILTERS */}
           <TimesheetFilters
             search={search}
+            status={status}
+            startDate={startDate}
+            endDate={endDate}
             onSearchChange={
               setSearch
             }
+            onStatusChange={
+              setStatus
+            }
+            onStartDateChange={
+              setStartDate
+            }
+            onEndDateChange={
+              setEndDate
+            }
           />
 
+          {/* TABLE */}
           <div className="mt-8">
             {filteredTimesheets.length ===
             0 ? (
               <EmptyState
                 title="No timesheets found"
-                description="Try adjusting your search."
+                description="Try adjusting your filters."
               />
             ) : (
               <TimesheetTable
@@ -80,6 +159,7 @@ export default function TimesheetsPage() {
           </div>
         </div>
 
+        {/* FOOTER */}
         <div className="border-t border-[#E5E7EB] py-10 text-center text-[15px] text-[#6B7280]">
           © 2026 tentwenty. All rights
           reserved.
