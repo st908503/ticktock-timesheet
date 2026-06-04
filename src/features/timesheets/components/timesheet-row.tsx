@@ -27,7 +27,7 @@ export default function TimesheetRow({
     <tr className="border-b border-[#E5E7EB] bg-white transition hover:bg-[#FAFAFA]">
       {/* WEEK */}
       <td className="px-6 py-5 text-[15px] font-medium text-[#111827]">
-        Week {timesheet.weekNumber}
+        {timesheet.weekNumber}
       </td>
 
       {/* DATE */}

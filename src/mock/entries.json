@@ -7,5 +7,61 @@
     "workType": "Bug fixes",
     "description": "Fixed navbar responsiveness",
     "hours": 4
+  },
+  {
+    "id": "2",
+    "weekId": "2",
+    "date": "2024-01-08",
+    "projectName": "Dashboard Module",
+    "workType": "Feature Development",
+    "description": "Implemented analytics cards and charts",
+    "hours": 3
+  },
+  {
+    "id": "3",
+    "weekId": "2",
+    "date": "2024-01-09",
+    "projectName": "Authentication Service",
+    "workType": "Code Review",
+    "description": "Reviewed OAuth login implementation",
+    "hours": 2
+  },
+  {
+    "id": "4",
+    "weekId": "2",
+    "date": "2024-01-09",
+    "projectName": "Authentication Service",
+    "workType": "Bug fixes",
+    "description": "Fixed session expiry issue",
+    "hours": 5
+  },
+  {
+    "id": "5",
+    "weekId": "2",
+    "date": "2024-01-10",
+    "projectName": "Timesheet Portal",
+    "workType": "Feature Development",
+    "description": "Created task grouping by date",
+    "hours": 4
+  },
+  {
+    "id": "6",
+    "weekId": "2",
+    "date": "2024-01-10",
+    "projectName": "Timesheet Portal",
+    "workType": "Testing",
+    "description": "Performed integration testing for task CRUD",
+    "hours": 2
+  },
+  
+  
+  {
+    "id": "7",
+    "weekId": "1",
+    "date": "2024-01-04",
+    "projectName": "Legacy Portal",
+    "workType": "Testing",
+    "description": "Regression testing before release",
+    "hours": 6
   }
 ]

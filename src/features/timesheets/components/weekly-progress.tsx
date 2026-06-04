@@ -11,36 +11,28 @@ export default function WeeklyProgress({
     calculateProgress(totalHours);
 
   return (
-    <div className="rounded-xl border bg-white p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-semibold">
-            Weekly Progress
-          </h2>
+    <div className="flex items-start justify-between">
+      <div />
 
-          <p className="text-sm text-gray-500">
-            Track submitted hours
-          </p>
+      <div className="w-[180px]">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-lg font-semibold text-gray-900">
+            {totalHours}/40 hrs
+          </span>
+
+          <span className="text-sm font-medium text-gray-400">
+            {progress}%
+          </span>
         </div>
 
-        <span className="text-2xl font-bold">
-          {totalHours}h
-        </span>
-      </div>
-
-      <div className="mt-6 h-3 overflow-hidden rounded-full bg-gray-100">
-        <div
-          style={{
-            width: `${progress}%`,
-          }}
-          className="h-full rounded-full bg-blue-600 transition-all"
-        />
-      </div>
-
-      <div className="mt-2 flex items-center justify-between text-sm text-gray-500">
-        <span>0h</span>
-
-        <span>40h target</span>
+        <div className="h-1.5 overflow-hidden rounded-full bg-gray-200">
+          <div
+            className="h-full rounded-full bg-orange-400 transition-all"
+            style={{
+              width: `${progress}%`,
+            }}
+          />
+        </div>
       </div>
     </div>
   );

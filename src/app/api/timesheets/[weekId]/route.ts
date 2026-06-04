@@ -13,7 +13,6 @@ export async function GET(
   { params }: Params
 ) {
 
-  // await params
   const { weekId } = await params;
 
   const entries =

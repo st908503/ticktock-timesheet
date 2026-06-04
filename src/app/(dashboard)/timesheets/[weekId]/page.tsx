@@ -1,18 +1,19 @@
 "use client";
 
-import { use, useMemo, useState } from "react";
-
-import { Plus } from "lucide-react";
+import {
+  use,
+  useMemo,
+  useState,
+} from "react";
 
 import EmptyState from "@/components/shared/empty-state";
 import ErrorState from "@/components/shared/error-state";
 import LoadingSpinner from "@/components/shared/loading-spinner";
 
-import PageContainer from "@/components/layout/page-container";
-
-import TaskEntryCard from "@/features/timesheets/components/task-entry-card";
-import TaskEntryModal from "@/features/timesheets/components/task-entry-modal";
 import WeeklyProgress from "@/features/timesheets/components/weekly-progress";
+import TimesheetDayGroup from "@/features/timesheets/components/timesheet-day-group";
+import TimesheetWeekHeader from "@/features/timesheets/components/timesheet-week-header";
+import TaskEntryModal from "@/features/timesheets/components/task-entry-modal";
 
 import { useTimesheetEntries } from "@/features/timesheets/hooks/use-timesheet-entries";
 
@@ -29,9 +30,8 @@ type Props = {
 export default function TimesheetDetailsPage({
   params,
 }: Props) {
-
-  // unwrap params
-  const { weekId } = use(params);
+  const { weekId } =
+    use(params);
 
   const {
     entries,
@@ -51,6 +51,9 @@ export default function TimesheetDetailsPage({
   const [selectedEntry, setSelectedEntry] =
     useState<Entry | null>(null);
 
+  const [selectedDate, setSelectedDate] =
+    useState<string>();
+
   const totalHours = useMemo(() => {
     return entries.reduce(
       (acc, entry) =>
@@ -59,16 +62,57 @@ export default function TimesheetDetailsPage({
     );
   }, [entries]);
 
-  function handleAddEntry() {
-    setSelectedEntry(null);
+  const groupedEntries =
+    useMemo(() => {
+      const grouped: Record<
+        string,
+        Entry[]
+      > = {};
 
-    setOpen(true);
-  }
+      entries.forEach((entry) => {
+        if (
+          !grouped[entry.date]
+        ) {
+          grouped[entry.date] =
+            [];
+        }
+
+        grouped[
+          entry.date
+        ].push(entry);
+      });
+
+      return Object.entries(
+        grouped
+      ).sort(
+        ([dateA], [dateB]) =>
+          new Date(
+            dateA
+          ).getTime() -
+          new Date(
+            dateB
+          ).getTime()
+      );
+    }, [entries]);
 
   function handleEditEntry(
     entry: Entry
   ) {
+    setSelectedDate(
+      undefined
+    );
+
     setSelectedEntry(entry);
+
+    setOpen(true);
+  }
+
+  function handleAddTask(
+    date: string
+  ) {
+    setSelectedEntry(null);
+
+    setSelectedDate(date);
 
     setOpen(true);
   }
@@ -100,54 +144,78 @@ export default function TimesheetDetailsPage({
 
   return (
     <>
-      <PageContainer
-        title={`Week ${weekId}`}
-        description="Manage weekly task entries"
-        action={
-          <button
-            onClick={handleAddEntry}
-            className="inline-flex h-11 items-center gap-2 rounded-lg bg-blue-600 px-5 text-sm font-medium text-white transition hover:bg-blue-700"
-          >
-            <Plus className="h-4 w-4" />
-            Add Entry
-          </button>
-        }
-      >
-        <WeeklyProgress
-          totalHours={totalHours}
-        />
+      <div className="mx-auto max-w-7xl p-6">
+        <div className="rounded-2xl border border-gray-200 bg-white p-8">
+          <div className="mb-8">
+            <div className="flex items-start justify-between">
+              <TimesheetWeekHeader />
 
-        <div className="space-y-4">
-          {entries.length === 0 ? (
-            <EmptyState
-              title="No entries yet"
-              description="Create your first task entry for this week."
-            />
-          ) : (
-            entries.map((entry) => (
-              <TaskEntryCard
-                key={entry.id}
-                entry={entry}
-                onEdit={
-                  handleEditEntry
-                }
-                onDelete={
-                  deleteEntry
+              <WeeklyProgress
+                totalHours={
+                  totalHours
                 }
               />
-            ))
+            </div>
+          </div>
+
+          {entries.length ===
+          0 ? (
+            <EmptyState
+              title="No entries yet"
+              description="Create your first task entry."
+            />
+          ) : (
+            <div className="space-y-8">
+              {groupedEntries.map(
+                ([
+                  date,
+                  dayEntries,
+                ]) => (
+                  <TimesheetDayGroup
+                    key={date}
+                    date={date}
+                    entries={
+                      dayEntries
+                    }
+                    onAddTask={
+                      handleAddTask
+                    }
+                    onEdit={
+                      handleEditEntry
+                    }
+                    onDelete={
+                      deleteEntry
+                    }
+                  />
+                )
+              )}
+            </div>
           )}
         </div>
-      </PageContainer>
+      </div>
 
       <TaskEntryModal
         open={open}
         onOpenChange={setOpen}
         initialValues={
-          selectedEntry || undefined
+          selectedEntry
+            ? selectedEntry
+            : selectedDate
+              ? {
+                  date:
+                    selectedDate,
+                }
+              : undefined
         }
-        onSubmit={handleSubmit}
+        onSubmit={
+          handleSubmit
+        }
       />
+
+      <div className="border-t border-[#E5E7EB] py-10 text-center text-[15px] text-[#6B7280]">
+          © 2026 tentwenty. All rights
+          reserved.
+        </div>
     </>
   );
 }

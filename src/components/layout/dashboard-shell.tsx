@@ -13,7 +13,7 @@ export default function DashboardShell({
     <div className="min-h-screen bg-gray-50">
       <Navbar />
 
-      <main className="mx-auto max-w-7xl p-6">
+      <main className="mx-auto max-w-7xl p-4">
         {children}
       </main>
     </div>
