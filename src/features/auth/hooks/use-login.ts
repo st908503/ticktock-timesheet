@@ -1,32 +1,23 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-import { login } from "../services/auth.service";
+import { signIn } from "next-auth/react";
 
 export function useLogin() {
-  const router = useRouter();
+  const [isLoading, setIsLoading] =
+    useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] =
+    useState("");
 
-  async function handleLogin(email: string, password: string) {
+  async function handleLogin() {
     try {
       setIsLoading(true);
       setError("");
 
-      const response = await login({
-        email,
-        password,
+      await signIn("github", {
+        callbackUrl: "/timesheets",
       });
-
-      if (response?.error) {
-        setError("Invalid email or password");
-        return;
-      }
-
-      router.push("/timesheets");
     } catch {
       setError("Something went wrong");
     } finally {

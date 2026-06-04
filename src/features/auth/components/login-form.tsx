@@ -33,14 +33,9 @@ export default function LoginForm() {
     },
   });
 
-  async function onSubmit(
-    values: LoginSchemaValues
-  ) {
-    await handleLogin(
-      values.email,
-      values.password
-    );
-  }
+  async function onSubmit() {
+  await handleLogin();
+}
 
   return (
     <form
