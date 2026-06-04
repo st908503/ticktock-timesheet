@@ -1,6 +1,6 @@
 // src/middleware.ts
 
-export { default } from "next-auth/middleware";
+export { auth as middleware } from "@/auth";
 
 export const config = {
   matcher: ["/timesheets/:path*"],
