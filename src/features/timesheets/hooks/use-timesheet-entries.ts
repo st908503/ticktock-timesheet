@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   createEntry,
@@ -9,29 +9,18 @@ import {
   updateEntry,
 } from "../services/entries.service";
 
-import type {
-  Entry,
-} from "../types/timesheet.types";
+import type { Entry } from "../types/timesheet.types";
 
-export function useTimesheetEntries(
-  weekId: string
-) {
-  const [entries, setEntries] = useState<Entry[]>(
-    []
-  );
-
-  const [isLoading, setIsLoading] =
-    useState(true);
-
+export function useTimesheetEntries(weekId: string) {
+  const [entries, setEntries] = useState<Entry[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  async function loadEntries() {
+  const loadEntries = useCallback(async () => {
     try {
       setIsLoading(true);
 
-      const data = await getEntriesByWeekId(
-        weekId
-      );
+      const data = await getEntriesByWeekId(weekId);
 
       setEntries(data);
     } catch {
@@ -39,34 +28,26 @@ export function useTimesheetEntries(
     } finally {
       setIsLoading(false);
     }
-  }
-
-  useEffect(() => {
-    loadEntries();
   }, [weekId]);
 
-  async function handleCreateEntry(
-    payload: Partial<Entry>
-  ) {
+  useEffect(() => {
+    void loadEntries();
+  }, [loadEntries]);
+
+  async function handleCreateEntry(payload: Partial<Entry>) {
     const created = await createEntry({
       ...payload,
       weekId,
     });
 
-    setEntries((prev) => [
-      created,
-      ...prev,
-    ]);
+    setEntries((prev) => [created, ...prev]);
   }
 
   async function handleUpdateEntry(
     id: string,
     payload: Partial<Entry>
   ) {
-    const updated = await updateEntry(
-      id,
-      payload
-    );
+    const updated = await updateEntry(id, payload);
 
     setEntries((prev) =>
       prev.map((entry) =>
@@ -75,9 +56,7 @@ export function useTimesheetEntries(
     );
   }
 
-  async function handleDeleteEntry(
-    id: string
-  ) {
+  async function handleDeleteEntry(id: string) {
     await deleteEntry(id);
 
     setEntries((prev) =>
@@ -89,14 +68,8 @@ export function useTimesheetEntries(
     entries,
     isLoading,
     error,
-
-    createEntry:
-      handleCreateEntry,
-
-    updateEntry:
-      handleUpdateEntry,
-
-    deleteEntry:
-      handleDeleteEntry,
+    createEntry: handleCreateEntry,
+    updateEntry: handleUpdateEntry,
+    deleteEntry: handleDeleteEntry,
   };
 }

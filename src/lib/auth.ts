@@ -1,4 +1,4 @@
-import type { NextAuthOptions } from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -9,7 +9,7 @@ const MOCK_USER = {
   name: "John Doe",
 };
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthConfig = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
