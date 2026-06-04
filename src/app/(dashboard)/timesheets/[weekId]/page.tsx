@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { use, useMemo, useState } from "react";
 
 import { Plus } from "lucide-react";
 
@@ -21,14 +21,18 @@ import type {
 } from "@/features/timesheets/types/timesheet.types";
 
 type Props = {
-  params: {
+  params: Promise<{
     weekId: string;
-  };
+  }>;
 };
 
 export default function TimesheetDetailsPage({
   params,
 }: Props) {
+
+  // unwrap params
+  const { weekId } = use(params);
+
   const {
     entries,
     isLoading,
@@ -38,7 +42,7 @@ export default function TimesheetDetailsPage({
     updateEntry,
     deleteEntry,
   } = useTimesheetEntries(
-    params.weekId
+    weekId
   );
 
   const [open, setOpen] =
@@ -97,7 +101,7 @@ export default function TimesheetDetailsPage({
   return (
     <>
       <PageContainer
-        title={`Week ${params.weekId}`}
+        title={`Week ${weekId}`}
         description="Manage weekly task entries"
         action={
           <button
