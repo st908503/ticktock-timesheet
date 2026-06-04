@@ -1,7 +1,4 @@
-import {
-  NextRequest,
-  NextResponse,
-} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import {
   deleteEntry,
@@ -10,11 +7,7 @@ import {
 
 export async function PUT(
   request: NextRequest,
-  context: {
-    params: Promise<{
-      id: string;
-    }>;
-  }
+  context: any
 ) {
   const { id } = await context.params;
 
@@ -29,12 +22,8 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _: NextRequest,
-  context: {
-    params: Promise<{
-      id: string;
-    }>;
-  }
+  request: NextRequest,
+  context: any
 ) {
   const { id } = await context.params;
 
