@@ -55,7 +55,7 @@ sm:!w-full
           translate-y-[-50%]
         "
       >
-        {/* Header */}
+        
         <DialogHeader
           className="
             border-b
@@ -81,7 +81,7 @@ sm:!w-full
           </DialogTitle>
         </DialogHeader>
 
-        {/* Scrollable Content */}
+    
         <div
           className="
             overflow-y-auto

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import {
   createEntry,
@@ -55,14 +56,17 @@ export function useTimesheetEntries(weekId: string) {
       )
     );
   }
+async function handleDeleteEntry(id: string) {
+  await deleteEntry(id);
 
-  async function handleDeleteEntry(id: string) {
-    await deleteEntry(id);
+  setEntries((prev) =>
+    prev.filter((entry) => entry.id !== id)
+  );
 
-    setEntries((prev) =>
-      prev.filter((entry) => entry.id !== id)
-    );
-  }
+  toast.success(
+    "Task deleted successfully"
+  );
+}
 
   return {
     entries,

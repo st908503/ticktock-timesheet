@@ -1,4 +1,3 @@
-// timesheet-filters.tsx
 "use client";
 
 import {
@@ -62,7 +61,6 @@ export default function TimesheetFilters({
     <div className="flex flex-col gap-4 lg:flex-row lg:flex-wrap lg:items-center">
      
 
-      {/* Start Date */}
       <input
         type="date"
         value={startDate}
@@ -86,7 +84,6 @@ export default function TimesheetFilters({
         "
       />
 
-      {/* End Date */}
       <input
         type="date"
         value={endDate}
@@ -110,7 +107,6 @@ export default function TimesheetFilters({
         "
       />
 
-      {/* Status */}
       <select
         value={status}
         onChange={(e) =>
@@ -149,7 +145,6 @@ export default function TimesheetFilters({
         </option>
       </select>
 
-      {/* Clear Filters */}
       <button
         type="button"
         onClick={handleClearFilters}

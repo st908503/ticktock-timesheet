@@ -25,12 +25,10 @@ export default function TimesheetRow({
 
   return (
     <tr className="border-b border-[#E5E7EB] bg-white transition hover:bg-[#FAFAFA]">
-      {/* WEEK */}
       <td className="px-6 py-5 text-[15px] font-medium text-[#111827]">
         {timesheet.weekNumber}
       </td>
 
-      {/* DATE */}
       <td className="px-6 py-5 text-[15px] text-[#6B7280]">
         {formatWeekRange(
           timesheet.startDate,
@@ -38,14 +36,12 @@ export default function TimesheetRow({
         )}
       </td>
 
-      {/* STATUS */}
       <td className="px-6 py-5">
         <StatusBadge
           status={timesheet.status}
         />
       </td>
 
-      {/* ACTION */}
       <td className="px-6 py-5 text-right">
         <Link
           href={`/timesheets/${timesheet.id}`}

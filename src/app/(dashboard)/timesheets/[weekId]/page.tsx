@@ -6,6 +6,8 @@ import {
   useState,
 } from "react";
 
+import { toast } from "sonner";
+
 import EmptyState from "@/components/shared/empty-state";
 import ErrorState from "@/components/shared/error-state";
 import LoadingSpinner from "@/components/shared/loading-spinner";
@@ -126,10 +128,18 @@ export default function TimesheetDetailsPage({
         values
       );
 
+      toast.success(
+        "Task updated successfully"
+      );
+
       return;
     }
 
     await createEntry(values);
+
+    toast.success(
+      "Task added successfully"
+    );
   }
 
   if (isLoading) {
@@ -148,7 +158,41 @@ export default function TimesheetDetailsPage({
         <div className="rounded-2xl border border-gray-200 bg-white p-8">
           <div className="mb-8">
             <div className="flex items-start justify-between">
-              <TimesheetWeekHeader />
+              <div>
+                <TimesheetWeekHeader />
+
+                {groupedEntries.length >
+                  0 && (
+                  <p className="mt-3 text-[#6B7280]">
+                    {new Date(
+                      groupedEntries[0][0]
+                    ).toLocaleDateString(
+                      "en-US",
+                      {
+                        day: "numeric",
+                        month:
+                          "short",
+                      }
+                    )}{" "}
+                    -{" "}
+                    {new Date(
+                      groupedEntries[
+                        groupedEntries.length -
+                          1
+                      ][0]
+                    ).toLocaleDateString(
+                      "en-US",
+                      {
+                        day: "numeric",
+                        month:
+                          "short",
+                        year:
+                          "numeric",
+                      }
+                    )}
+                  </p>
+                )}
+              </div>
 
               <WeeklyProgress
                 totalHours={
@@ -213,9 +257,9 @@ export default function TimesheetDetailsPage({
       />
 
       <div className="border-t border-[#E5E7EB] py-10 text-center text-[15px] text-[#6B7280]">
-          © 2026 tentwenty. All rights
-          reserved.
-        </div>
+        © 2026 tentwenty. All rights
+        reserved.
+      </div>
     </>
   );
 }

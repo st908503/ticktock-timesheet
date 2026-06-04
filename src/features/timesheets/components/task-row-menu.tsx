@@ -1,4 +1,3 @@
-// task-row-menu.tsx
 "use client";
 
 import {
@@ -53,7 +52,7 @@ export default function TaskRowMenu({
           shadow-lg
         "
       >
-        {/* Edit */}
+        
         <DropdownMenuItem
           onClick={onEdit}
           className="
@@ -81,7 +80,7 @@ export default function TaskRowMenu({
           Edit
         </DropdownMenuItem>
 
-        {/* Delete */}
+        
         <DropdownMenuItem
           onClick={onDelete}
           className="

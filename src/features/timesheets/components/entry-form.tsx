@@ -1,4 +1,3 @@
-// entry-form.tsx
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -87,7 +86,7 @@ export default function EntryForm({
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-5"
     >
-      {/* Project */}
+   
       <div className="space-y-2">
         <div className="flex items-center gap-1">
           <label className="text-[13px] font-medium text-[#111827]">
@@ -152,7 +151,7 @@ export default function EntryForm({
         )}
       </div>
 
-      {/* Work Type */}
+
       <div className="space-y-2">
         <div className="flex items-center gap-1">
           <label className="text-[13px] font-medium text-[#111827]">
@@ -217,7 +216,7 @@ export default function EntryForm({
         )}
       </div>
 
-      {/* Description */}
+    
       <div className="space-y-2">
         <label className="text-[13px] font-medium text-[#111827]">
           Task Description *
@@ -258,7 +257,7 @@ export default function EntryForm({
         )}
       </div>
 
-      {/* Hours */}
+
       <div className="space-y-2">
         <label className="text-[13px] font-medium text-[#111827]">
           Hours *
@@ -345,7 +344,7 @@ export default function EntryForm({
         )}
       </div>
 
-      {/* Date */}
+
       <div className="space-y-2">
         <label className="text-[13px] font-medium text-[#111827]">
           Date *
@@ -377,7 +376,7 @@ export default function EntryForm({
         )}
       </div>
 
-      {/* Footer Buttons */}
+     
       <div
         className="
           mt-6

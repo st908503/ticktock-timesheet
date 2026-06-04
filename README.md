@@ -1,16 +1,17 @@
 # TickTock Timesheet Management App
 
-A modern SaaS-style Timesheet Management application built with **Next.js 16**, **TypeScript**, **TailwindCSS**, and **NextAuth**.
+A modern SaaS-style Timesheet Management application built with **Next.js 15**, **TypeScript**, **TailwindCSS v4**, and modern frontend architecture principles.
 
 This project was created as part of a Frontend Developer Technical Assessment to demonstrate:
 
 * Clean architecture
-* API integration
 * Authentication flow
+* API integration
 * Responsive UI implementation
 * Component-driven development
-* Scalable folder structure
-* Modern frontend best practices
+* Scalable frontend structure
+* Modern React patterns
+* Type-safe development
 
 ---
 
@@ -24,14 +25,22 @@ https://ticktock-timesheet-one.vercel.app
 
 ## Core
 
-* Next.js 16 (App Router)
+* Next.js 15 (App Router)
 * React 19
 * TypeScript
 
-## Styling
+---
+
+## Styling & UI
 
 * TailwindCSS v4
-* Lucide Icons
+* Lucide React
+* clsx
+* class-variance-authority
+* tailwind-merge
+* tw-animate-css
+
+---
 
 ## Forms & Validation
 
@@ -39,15 +48,35 @@ https://ticktock-timesheet-one.vercel.app
 * Zod
 * @hookform/resolvers
 
+---
+
 ## Authentication
 
-* NextAuth.js (Credentials Provider)
+* Mock credential-based authentication
+* Local session persistence using localStorage
+* Route redirection handling
+* Protected dashboard access
 
-## UI Utilities
+---
 
-* class-variance-authority
-* clsx
-* tailwind-merge
+## Notifications
+
+* Sonner Toasts
+
+Used for:
+
+* Login success/error
+* Task creation
+* Task updates
+* Task deletion
+
+---
+
+## Theme Support
+
+* next-themes
+
+---
 
 ## Testing
 
@@ -59,17 +88,19 @@ https://ticktock-timesheet-one.vercel.app
 
 # Features
 
-## Authentication
+# Authentication
 
 * Login page
-* Credential-based authentication
-* Session handling using NextAuth
-* Protected dashboard routes
+* Credential validation
 * Persistent login session
+* Protected dashboard flow
+* Prevent authenticated users from revisiting login page
+* Redirect handling after login
 
 ### Demo Credentials
 
 Email: [demo@xyz.com](mailto:demo@xyz.com)
+
 Password: password123
 
 ---
@@ -80,42 +111,52 @@ Password: password123
 
 * Weekly timesheet overview
 * Status badges
-* Action buttons
+* Search functionality
+* Status filtering
+* Date range filtering
 * Responsive table layout
 * Empty states
 * Error states
 * Loading states
 
+---
+
 ## Timesheet Details
 
 * Weekly grouped task layout
-* Daily task sections
-* Add new task row
-* Edit task
+* Daily grouped entries
+* Add new task
+* Edit existing task
 * Delete task
 * Weekly progress tracker
-* Task grouping by date
+* Modal-based task management
+
+---
 
 ## Entry Management
 
-* Create task entry
-* Edit task entry
-* Delete task entry
+* Create entry
+* Update entry
+* Delete entry
+* Toast notifications
 * Form validation
-* Modal-based workflow
+* Optimistic UI-style updates
 
 ---
 
 # Authentication Flow
 
-The application uses **NextAuth Credentials Provider** with mock authentication.
-
 Flow:
 
 /login
-→ authenticate user
-→ create session
+→ validate credentials
+→ persist session in localStorage
 → redirect to /timesheets
+
+Additional handling:
+
+* authenticated users cannot revisit login page
+* browser back navigation protection implemented
 
 ---
 
@@ -148,8 +189,9 @@ src/
 │   ├── auth/
 │   └── timesheets/
 │
+├── hooks/
+│
 ├── lib/
-│   ├── auth.ts
 │   ├── fetcher.ts
 │   ├── mock-db.ts
 │   └── utils.ts
@@ -166,9 +208,9 @@ src/
 
 # Architecture Decisions
 
-## Feature-Based Structure
+## Feature-Based Architecture
 
-The project uses a feature-based architecture:
+The project follows a feature-driven structure:
 
 ```bash
 features/
@@ -178,36 +220,44 @@ features/
 
 Benefits:
 
-* Better scalability
-* Easier maintenance
-* Clear separation of concerns
-* Easier onboarding for teams
+* scalable architecture
+* isolated business domains
+* easier maintenance
+* cleaner ownership boundaries
+* production-style organization
 
 ---
 
 # API Layer
 
-All frontend components communicate ONLY through internal API routes.
+Frontend components never access mock data directly.
 
-Example:
+Flow:
 
 ```bash
 Component
    →
-Service
+Custom Hook
+   →
+Service Layer
    →
 /api/*
    →
 Mock DB
 ```
 
-This follows real production architecture patterns.
+Benefits:
+
+* separation of concerns
+* reusable API layer
+* backend-like architecture simulation
+* easier future backend migration
 
 ---
 
 # Mock Data
 
-Mock data is stored locally inside:
+Mock data stored inside:
 
 ```bash
 mock/
@@ -219,28 +269,26 @@ Includes:
 * timesheets.json
 * entries.json
 
-The UI NEVER accesses mock data directly.
+Access handled through:
 
-Only API routes interact with:
-
-```bash
-lib/mock-db.ts
-```
+* internal API routes
+* lib/mock-db.ts
 
 ---
 
 # UI/UX Approach
 
-The UI was implemented based on supplied Figma screens.
+Implemented based on supplied Figma designs.
 
 Focus areas:
 
-* Clean SaaS dashboard design
-* Proper spacing system
-* Responsive layouts
-* Accessible form controls
-* Consistent typography
-* Reusable UI patterns
+* SaaS dashboard styling
+* responsive layouts
+* consistent spacing system
+* reusable components
+* clean typography
+* accessibility-friendly controls
+* smooth user interactions
 
 ---
 
@@ -252,64 +300,96 @@ Supported breakpoints:
 * Tablet
 * Desktop
 
-Key responsive behavior:
+Responsive behaviors:
 
-* Collapsing layouts
-* Scrollable tables
-* Adaptive spacing
-* Mobile-friendly forms
+* adaptive spacing
+* flexible layouts
+* responsive tables
+* mobile-friendly forms
+* scalable dashboard UI
 
 ---
 
 # Validation
 
-Form validation is implemented using:
+Validation implemented using:
 
-* Zod
 * React Hook Form
+* Zod
 
 Validation includes:
 
-* Required fields
-* Number validation
-* Minimum/maximum limits
-* Error messaging
+* required fields
+* email validation
+* password validation
+* numeric validation
+* error messaging
 
 ---
 
 # State Management
 
-The project uses:
+The application primarily uses:
 
 * React Hooks
-* Local component state
-* Custom hooks
+* local component state
+* custom hooks
 
 Examples:
 
-```bash
-useTimesheets()
-useTimesheetEntries()
-useLogin()
-```
+* useLogin()
+* useTimesheets()
+* useTimesheetEntries()
 
 No unnecessary external state libraries were added.
 
 ---
 
+# Toast Notifications
+
+Sonner used for:
+
+* login success
+* login failure
+* task added
+* task updated
+* task deleted
+
+Provides:
+
+* lightweight UX feedback
+* modern notification system
+* clean async interaction handling
+
+---
+
+# Loading & Error Handling
+
+Implemented states:
+
+* loading spinners
+* empty states
+* API error states
+* validation states
+
+Provides production-style UX handling.
+
+---
+
 # Testing
 
-Testing setup includes:
+Testing stack:
 
 * Vitest
 * React Testing Library
 * Jest DOM
 
-Example test targets:
+Example test coverage:
 
-* Form validation
-* Component rendering
-* User interactions
+* component rendering
+* form validation
+* user interactions
+* authentication flow
 
 ---
 
@@ -327,29 +407,6 @@ git clone <repository-url>
 
 ```bash
 npm install
-```
-
----
-
-## 3. Configure Environment Variables
-
-Create:
-
-```bash
-.env.local
-```
-
-Add:
-
-```env
-NEXTAUTH_SECRET=your-secret-key
-NEXTAUTH_URL=http://localhost:3000
-```
-
-For production:
-
-```env
-NEXTAUTH_URL=https://your-production-domain.com
 ```
 
 ---
@@ -397,38 +454,41 @@ The project is deployed using:
 
 * Vercel
 
-Production-ready configuration includes:
+Production-ready setup includes:
 
-* Environment variables
-* NextAuth session handling
 * App Router support
+* responsive frontend
+* authentication redirects
+* environment-based deployment support
 
 ---
 
 # Assumptions
 
-* Authentication is mock-based only
-* No real database is connected
-* No backend persistence layer exists
-* Mock data resets on redeploy/server restart
-* Pagination UI is static for design accuracy
+* Authentication is mock-based
+* No real backend persistence exists
+* No database integration yet
+* Mock data resets on redeploy/restart
+* Pagination currently UI-focused
 
 ---
 
 # Future Improvements
 
-Possible enhancements:
+Potential enhancements:
 
-* Real database integration
-* Prisma ORM
-* Server Actions
+* Prisma ORM integration
+* PostgreSQL integration
+* NextAuth full session integration
 * Role-based access control
-* Real pagination
-* Search API
-* Filtering API
+* Real backend APIs
+* Pagination APIs
+* Search APIs
+* Filtering APIs
 * Dark mode
+* Server Actions
+* Optimistic updates
 * Drag-and-drop task management
-* Optimistic UI updates
 * E2E testing with Playwright
 
 ---
@@ -437,28 +497,31 @@ Possible enhancements:
 
 This project focuses on:
 
-* Production-style architecture
-* Readable code
-* Reusable components
-* Developer experience
-* Maintainability
-* Clean UI implementation
+* scalable architecture
+* clean frontend engineering
+* reusable UI patterns
+* maintainability
+* developer experience
+* responsive SaaS UI
+* production-style structure
 
 ---
 
 # Key Highlights
 
-## Implemented
+Implemented:
 
 * Next.js App Router
+* TypeScript
 * Feature-based architecture
-* NextAuth authentication
-* Internal API routes
-* Mock backend
-* Form validation
-* Responsive SaaS UI
-* Grouped task timeline
+* Mock authentication
+* Protected routes
+* Internal API architecture
 * Reusable components
+* Form validation
+* Toast notifications
+* Responsive dashboard UI
+* Grouped task timelines
 * Type-safe codebase
 
 ---
@@ -471,14 +534,14 @@ Approximate development time:
 
 Including:
 
-* Architecture
-* Authentication
-* API setup
+* architecture setup
+* authentication
+* API structure
 * UI implementation
-* Responsive design
-* Validation
-* Testing setup
-* Deployment
+* responsive design
+* validation
+* testing setup
+* deployment
 
 ---
 

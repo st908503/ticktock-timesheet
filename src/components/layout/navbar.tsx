@@ -1,4 +1,4 @@
-// components/navbar.tsx
+
 "use client";
 
 import { useState } from "react";
@@ -35,7 +35,6 @@ export default function Navbar() {
     <>
       <header className="border-b border-[#E5E7EB] bg-white">
         <div className="flex h-[78px] items-center justify-between px-8">
-          {/* Left */}
           <div className="flex items-center gap-14">
             <h1 className="text-[28px] font-semibold tracking-[-0.03em] text-[#111827]">
               ticktock
@@ -46,7 +45,6 @@ export default function Navbar() {
             </span>
           </div>
 
-          {/* Right */}
           <button
             onClick={() =>
               setOpen(true)
@@ -78,7 +76,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Logout Confirmation Modal */}
       <Dialog
         open={open}
         onOpenChange={setOpen}
@@ -127,7 +124,6 @@ export default function Navbar() {
             </div>
           </DialogHeader>
 
-          {/* Footer */}
           <div className="flex gap-3 px-5 py-5">
             <button
               type="button"

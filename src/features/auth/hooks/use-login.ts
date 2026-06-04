@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -59,8 +58,9 @@ export function useLogin() {
         `Welcome back, ${user.name}`
       );
 
-      window.location.href =
-        "/timesheets";
+      window.location.replace(
+        "/timesheets"
+      );
 
       return true;
     } catch {
@@ -82,4 +82,3 @@ export function useLogin() {
     handleLogin,
   };
 }
-

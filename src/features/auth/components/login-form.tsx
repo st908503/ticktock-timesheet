@@ -55,7 +55,6 @@ export default function LoginForm() {
       className="w-full max-w-[635px]"
     >
       <div className="space-y-8">
-        {/* Header */}
         <div className="space-y-2">
           <h1 className="text-[28px] font-bold tracking-[-0.02em] text-[#111827]">
             Welcome back
@@ -66,9 +65,7 @@ export default function LoginForm() {
           </p>
         </div>
 
-        {/* Fields */}
         <div className="space-y-5">
-          {/* Email */}
           <div className="space-y-2">
             <label className="text-[14px] font-medium text-[#111827]">
               Email
@@ -102,7 +99,7 @@ export default function LoginForm() {
             )}
           </div>
 
-          {/* Password */}
+         
           <div className="space-y-2">
             <label className="text-[14px] font-medium text-[#111827]">
               Password
@@ -170,7 +167,7 @@ export default function LoginForm() {
             )}
           </div>
 
-          {/* Remember */}
+         
           <div className="flex items-center gap-2 pt-1">
             <input
               id="remember"
@@ -193,14 +190,14 @@ export default function LoginForm() {
           </div>
         </div>
 
-        {/* Error */}
+       
         {error && (
           <p className="text-[13px] text-red-500">
             {error}
           </p>
         )}
 
-        {/* Submit */}
+      
         <button
           type="submit"
           disabled={isLoading}
@@ -223,7 +220,7 @@ export default function LoginForm() {
             : "Sign in"}
         </button>
 
-        {/* Demo Credentials */}
+       
         <div
           className="
             rounded-[14px]

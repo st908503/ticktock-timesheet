@@ -1,4 +1,3 @@
-// timesheet-table.tsx
 "use client";
 
 import { useMemo, useState } from "react";
@@ -19,19 +18,19 @@ type Props = {
 export default function TimesheetTable({
   timesheets,
 }: Props) {
-  // PAGINATION STATE
+ 
   const [currentPage, setCurrentPage] =
     useState(1);
 
   const [rowsPerPage, setRowsPerPage] =
     useState(5);
 
-  // TOTAL PAGES
+
   const totalPages = Math.ceil(
     timesheets.length / rowsPerPage
   );
 
-  // PAGINATED DATA
+ 
   const paginatedTimesheets =
     useMemo(() => {
       const start =
@@ -51,18 +50,18 @@ export default function TimesheetTable({
       rowsPerPage,
     ]);
 
-  // PAGE NUMBERS
+
   const pages = Array.from(
     { length: totalPages },
     (_, i) => i + 1
   );
 
-  // PAGE CHANGE
+
   function goToPage(page: number) {
     setCurrentPage(page);
   }
 
-  // ROWS CHANGE
+
   function handleRowsChange(
     value: number
   ) {
@@ -73,7 +72,6 @@ export default function TimesheetTable({
 
   return (
     <div className="overflow-hidden rounded-[14px] border border-[#E5E7EB] bg-white">
-      {/* TABLE */}
       <div className="overflow-x-auto">
         <table className="min-w-full">
           <thead className="bg-[#F9FAFB]">
@@ -109,9 +107,7 @@ export default function TimesheetTable({
         </table>
       </div>
 
-      {/* PAGINATION */}
       <div className="flex flex-col gap-5 border-t border-[#E5E7EB] px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
-        {/* Rows Per Page */}
         <select
           value={rowsPerPage}
           onChange={(e) =>
@@ -152,9 +148,8 @@ export default function TimesheetTable({
           </option>
         </select>
 
-        {/* Pagination Buttons */}
+   
         <div className="flex flex-wrap items-center gap-2">
-          {/* Previous */}
           <button
             onClick={() =>
               goToPage(
@@ -187,7 +182,7 @@ export default function TimesheetTable({
             Previous
           </button>
 
-          {/* Pages */}
+        
           {pages.map((page) => (
             <button
               key={page}
@@ -217,7 +212,7 @@ export default function TimesheetTable({
             </button>
           ))}
 
-          {/* Next */}
+       
           <button
             onClick={() =>
               goToPage(

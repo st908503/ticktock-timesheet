@@ -2,7 +2,7 @@ export default function StatusSidebar() {
   return (
     <aside className="hidden w-[290px] shrink-0 xl:block">
       <div className="space-y-5">
-        {/* STATUS CARD */}
+      
         <div className="rounded-[10px] bg-[#F4D35E] p-6">
           <div className="mb-5 flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0F9D58] text-[28px] font-bold text-white">
@@ -33,7 +33,7 @@ export default function StatusSidebar() {
           </p>
         </div>
 
-        {/* FILTERS CARD */}
+      
         <div className="rounded-[10px] bg-[#F4D35E] p-6">
           <h3 className="mb-6 text-[28px] font-bold text-[#111827]">
             Filters

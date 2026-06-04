@@ -1,4 +1,3 @@
-// timesheet-details-client.tsx
 "use client";
 
 import {
@@ -51,7 +50,6 @@ export default function TimesheetDetailsClient({
   const [selectedEntry, setSelectedEntry] =
     useState<Entry | null>(null);
 
-  // FILTER STATES
   const [search, setSearch] =
     useState("");
 
@@ -64,7 +62,6 @@ export default function TimesheetDetailsClient({
   const [endDate, setEndDate] =
     useState("");
 
-  // TOTAL HOURS
   const totalHours = useMemo(() => {
     return entries.reduce(
       (acc, entry) =>
@@ -73,7 +70,6 @@ export default function TimesheetDetailsClient({
     );
   }, [entries]);
 
-  // STATUS CALCULATOR
   function getStatus(
     hours: number
   ) {
@@ -86,7 +82,6 @@ export default function TimesheetDetailsClient({
     return "missing";
   }
 
-  // FILTERED ENTRIES
   const filteredEntries =
     useMemo(() => {
       return entries.filter(
@@ -213,7 +208,7 @@ export default function TimesheetDetailsClient({
         }
       >
         <div className="space-y-5">
-          {/* FILTERS */}
+ 
           <TimesheetFilters
             search={search}
             status={status}
@@ -237,7 +232,7 @@ export default function TimesheetDetailsClient({
             totalHours={totalHours}
           />
 
-          {/* LIST */}
+       
           <div className="space-y-4">
             {filteredEntries.length ===
             0 ? (
